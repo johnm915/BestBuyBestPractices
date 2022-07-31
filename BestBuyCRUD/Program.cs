@@ -12,7 +12,7 @@ namespace BestBuyCRUD
     {
         //allows us to grab the connection string information from the appsettings.json file
         //-----------------------------------------------------------------
-        static IConfiguration config = new ConfigurationBuilder()
+        static readonly IConfiguration config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
@@ -89,13 +89,19 @@ namespace BestBuyCRUD
 
         public static void ListProducts()
         {
-            var prodRepo = new ProductRepository(conn);
-            var products = prodRepo.GetAllProducts();
+            // ProductRepository prodRepo = new ProductRepository(connection: conn);
+            //var products = prodRepo.GetAllProducts();
 
-            //print each product from the products collection to the console
-            foreach (var product in products)
             {
-                Console.WriteLine($"{product.ProductID} {product.Name}");
+                ProductRepository productRepository = new ProductRepository(conn);
+                var prodRepo = productRepository;
+                var products = prodRepo.GetAllProducts();
+
+                //print each product from the products collection to the console
+                foreach (var product in products)
+                {
+                    Console.WriteLine($"{product.ProductID} {product.Name}");
+                }
             }
         }
 
